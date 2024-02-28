@@ -1,0 +1,38 @@
+.example-spacer {
+    flex: 1 1 auto;
+  }
+  
+.container-main {
+    padding: 30px;
+    margin: 0 auto;
+    max-width: 1300px;
+}
+  
+.action {
+    display: flex;
+    gap: 5px;
+}
+
+form {
+    width: 100%;
+}
+
+.form-row {
+    display: flex;
+    gap: 5px;
+}
+
+.form-row * {
+    width: 100%;
+}
+
+.entry_date {
+    background-color: #5464c0;
+    padding: 4px;
+    border-radius: 8px;
+    color: white;
+}
+
+.bold {
+    font-weight: bold !important;
+}
