@@ -10,6 +10,6 @@ urlpatterns = [
     path('plan/', views.PlansView.as_view()),
     path('plan/<int:pk>/', views.PlansDetailView.as_view()),
     path('contract/', views.ContractView.as_view()),
-    path('contract/<int:pk>/', views.ContractDetailView.as_view()),
     path('parkmovement/', views.ParkMovementView.as_view()),
+    path('parkmovement/<int:pk>/', views.ParkMovementDetailView.as_view()),
 ]

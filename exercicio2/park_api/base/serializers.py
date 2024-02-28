@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import Customer, Vehicle, Plan, Contract, ContractRule, ParkMovement
+from .models import Customer, Vehicle, Plan, Contract, ContractRule, ParkMovement, CustomerPlan
 
 # class CustomerSerializer(serializers.Serializer):
 #     id = serializers.IntegerField(read_only=True)
@@ -15,11 +15,23 @@ from .models import Customer, Vehicle, Plan, Contract, ContractRule, ParkMovemen
 #         customer.save()
 #         return customer
     
+class PlanSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Plan
+        fields = ['id', 'description', 'value']
+
+class CustomerPlanSerializer(serializers.ModelSerializer):
+    plan = PlanSerializer(read_only=True)
+    class Meta:
+        model = CustomerPlan
+        fields = '__all__'
 
 class CustomerSerializer(serializers.ModelSerializer):
+    plans = CustomerPlanSerializer(source='customerplan_set', many=True, read_only=True)
+
     class Meta:
         model = Customer
-        fields = ['id', 'name', 'card_id']
+        fields = ['id', 'name', 'card_id', 'plans']
 
 class VehicleSerializer(serializers.ModelSerializer):
     customer_id = serializers.IntegerField(write_only=True, required=False, allow_null=True)
@@ -28,11 +40,6 @@ class VehicleSerializer(serializers.ModelSerializer):
     class Meta:
         model = Vehicle
         fields = '__all__'
-
-class PlanSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Plan
-        fields = ['id', 'description', 'value']
 
 class ContractRuleSerializer(serializers.ModelSerializer):
     class Meta:
@@ -70,8 +77,8 @@ class ContractSerializer(serializers.ModelSerializer):
         return instance
 
 class ParkMovementSerializer(serializers.ModelSerializer):
-    plate = serializers.CharField(max_length=50, required=True, write_only=True)
-    # card_id = serializers.CharField(max_length=10, required=False)
+    vehicle_id = serializers.IntegerField(write_only=True, required=True, allow_null=False)
+    customer_id = serializers.IntegerField(write_only=True, required=True, allow_null=False)
 
     class Meta:
         model = ParkMovement
