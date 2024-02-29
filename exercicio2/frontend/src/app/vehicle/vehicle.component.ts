@@ -102,6 +102,9 @@ export class VehicleComponent {
             },
             error: (err: any) => {
               console.error(err)
+              if (err.error.error) {
+                alert(err.error.error)
+              }
             }
           })
       } else {

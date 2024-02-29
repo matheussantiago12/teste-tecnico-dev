@@ -58,6 +58,11 @@ class VehiclesView(APIView):
         serializer = VehicleSerializer(data=request.data)
 
         if serializer.is_valid():
+            plate_exists = Vehicle.objects.filter(plate=request.data.get('plate')).first()
+
+            if (plate_exists):
+                return Response({'error': 'Um veículo com essa placa já existe!'}, status=status.HTTP_400_BAD_REQUEST)
+            
             serializer.save()
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         
