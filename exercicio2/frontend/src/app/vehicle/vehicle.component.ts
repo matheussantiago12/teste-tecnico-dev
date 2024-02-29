@@ -75,6 +75,16 @@ export class VehicleComponent {
       return
     }
 
+    if (!this.form.value.model) {
+      alert('Informe o modelo do veículo!')
+      return
+    }
+
+    if (!this.form.value.description) {
+      alert('Informe a descrição do veículo!')
+      return
+    }
+
     if (this.form.valid) {
       const data = {
         ...this.form.value,
