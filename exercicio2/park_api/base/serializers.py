@@ -1,19 +1,5 @@
 from rest_framework import serializers
 from .models import Customer, Vehicle, Plan, Contract, ContractRule, ParkMovement, CustomerPlan
-
-# class CustomerSerializer(serializers.Serializer):
-#     id = serializers.IntegerField(read_only=True)
-#     name = serializers.CharField(max_length=50, required=True)
-#     card_id = serializers.CharField(max_length=10, required=False)
-
-#     def create(self, data):
-#         return Customer.objects.create(**data)
-    
-#     def update(self, customer, data):
-#         customer.name = data.get('name', customer.name)
-#         customer.card_id = data.get('card_id', customer.card_id)
-#         customer.save()
-#         return customer
     
 class PlanSerializer(serializers.ModelSerializer):
     class Meta:

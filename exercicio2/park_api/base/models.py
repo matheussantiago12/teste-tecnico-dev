@@ -9,17 +9,10 @@ class Customer(models.Model):
         return self.name
     
     def update_plans(self, plans_ids): # Atualiza a lista de regras vinculadas ao contrato
-        # deletados = CustomerPlan.objects.filter(customer_id=self.id).exclude(plan_id__in=plans_ids)
-        # print('deletados', deletados)
         CustomerPlan.objects.filter(customer_id=self.id).exclude(plan_id__in=plans_ids).delete() # Tira o vínculo com o cliente dos planos que não estão na lista de IDs
-        # a = CustomerPlan.objects.filter(customer_id=self.id).exclude(plan_id__in=plans_ids)
-        # print('deletados2', a)
+        
         existing_ids = CustomerPlan.objects.filter(plan_id__in=plans_ids,customer_id=self.id).values_list('plan_id', flat=True) # Lista dos planos que não serão alterados
-        print('existing_ids', existing_ids)
         new_plans_ids = [id for id in plans_ids if id not in existing_ids] # Lista de IDs dos planos novos
-        print('new_plans_ids', new_plans_ids)
-
-
 
         if new_plans_ids:
             due_date = datetime.now(timezone.utc)

@@ -37,7 +37,6 @@ class CustomersDetailView(APIView):
         except Customer.DoesNotExist:
             raise Http404
 
-        # if request.data.get('plans_ids'):
         customer.update_plans(request.data.get('plans_ids'))
 
         serializer = CustomerSerializer(customer, data=request.data)
@@ -118,11 +117,13 @@ class ContractView(APIView):
         return Response(serializer.data)
     
     def post(self, request: Request):
-        already_has_contract = Contract.objects.all().count() >= 1
-
-        if already_has_contract:
-            return Response({'error': 'Já existe um contrato cadastrado. Máximo: 1'}, status=status.HTTP_400_BAD_REQUEST)
-
+        if not request.data.get('id'):
+            already_has_contract = Contract.objects.all().count() >= 1
+            if already_has_contract:
+                return Response({'error': 'Já existe um contrato cadastrado. Máximo: 1'}, status=status.HTTP_400_BAD_REQUEST)
+            
+        if not request.data.get('contract_rules'):
+            return Response({'error': 'O contrato deve ter ao menos 1 regra.'}, status=status.HTTP_400_BAD_REQUEST)
 
         serializer = ContractSerializer(data=request.data)
 
@@ -137,6 +138,9 @@ class ContractView(APIView):
             contract = Contract.objects.get(pk=request.data['id'])
         except Contract.DoesNotExist:
             raise Http404
+        
+        if not request.data.get('contract_rules'):
+            return Response({'error': 'O contrato deve ter ao menos 1 regra.'}, status=status.HTTP_400_BAD_REQUEST)
     
         serializer = ContractSerializer(contract, data=request.data)
 
@@ -223,9 +227,6 @@ class ParkMovementDetailView(APIView):
         except ParkMovement.DoesNotExist:
             raise Http404
         
-        # customer = Customer.objects.get(pk=park_movement.customer.id)
-        # print('customer', customer)
-
         has_plan = bool(Plan.customers.through.objects.filter(customer_id=park_movement.customer.id).count())
         current_datetime = datetime.now(timezone.utc)
 
@@ -233,7 +234,6 @@ class ParkMovementDetailView(APIView):
             value = 0
         else :
             minutes = self.get_time_difference(current_datetime, park_movement.entry_date) # Tempo gasto no estacionamento
-            print('minutes: ', minutes)
 
             contract = Contract.objects.all().first()
             contract_rule = ContractRule.objects.filter(contract_id=contract.id,until__gte=minutes).order_by('until').first() # Pega a regra correspondente ao tempo gasto
