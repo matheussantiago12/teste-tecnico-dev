@@ -84,12 +84,12 @@ Para cadastrar/atualizar um contrato, é preciso ter ao menos 1 regra.
 
 #### Retorna todos os clientes
 
-```http
+```
   GET /api/v1/customer/
 ```
 
 #### Cadastra cliente
-```http
+```
   POST /api/v1/customer/
 ```
 
@@ -100,7 +100,7 @@ Para cadastrar/atualizar um contrato, é preciso ter ao menos 1 regra.
 | `plans_ids` | `int[]` | **(Opcional)** Lista de IDs dos planos |
 
 #### Atualiza cliente
-```http
+```
   PUT /api/v1/customer/${id}/
 ```
 
@@ -114,12 +114,12 @@ Para cadastrar/atualizar um contrato, é preciso ter ao menos 1 regra.
 
 #### Retorna todos os veículos
 
-```http
+```
   GET /api/v1/vehicle/
 ```
 
 #### Cadastra veículo
-```http
+```
   POST /api/v1/vehicle/
 ```
 
@@ -131,7 +131,7 @@ Para cadastrar/atualizar um contrato, é preciso ter ao menos 1 regra.
 | `customer_id` | `int` | **(Opcional)** ID do dono do veículo (cliente) |
 
 #### Atualiza veículo
-```http
+```
   PUT /api/v1/vehicle/${id}/
 ```
 
@@ -146,12 +146,12 @@ Para cadastrar/atualizar um contrato, é preciso ter ao menos 1 regra.
 
 #### Retorna todos os planos
 
-```http
+```
   GET /api/v1/plan/
 ```
 
 #### Cadastra plano
-```http
+```
   POST /api/v1/plan/
 ```
 
@@ -161,7 +161,7 @@ Para cadastrar/atualizar um contrato, é preciso ter ao menos 1 regra.
 | `value` | `number` | **(Obrigatório)** Valor |
 
 #### Atualiza plano
-```http
+```
   PUT /api/v1/plan/${id}/
 ```
 
@@ -174,12 +174,12 @@ Para cadastrar/atualizar um contrato, é preciso ter ao menos 1 regra.
 
 #### Retorna todos os contratos
 
-```http
+```
   GET /api/v1/contract/
 ```
 
 #### Cadastra contrato
-```http
+```
   POST /api/v1/contract/
 ```
 
@@ -202,13 +202,13 @@ Exemplo:
         "until": 10,
         "value": 20
     }
-}
+]
 ```
 
 Lembrando que o array deve ter pelo menos 1 regra.
 
 #### Atualiza contrato
-```http
+```
   PUT /api/v1/contract/
 ```
 
@@ -244,7 +244,7 @@ Caso queira que alguma regra já existente seja excluída do contrato, basta ape
         "until": 15,
         "value": 30
     }
-}
+]
 ```
 
 Lembrando que o array deve ter pelo menos 1 regra.
@@ -253,12 +253,12 @@ Lembrando que o array deve ter pelo menos 1 regra.
 
 #### Retorna todos os registros ativos (que estão no estacionamento)
 
-```http
+```
   GET /api/v1/parkmovement/
 ```
 
 #### Cadastra entrada no estacionamento
-```http
+```
   POST /api/v1/parkmovement/
 ```
 
@@ -270,7 +270,7 @@ Lembrando que o array deve ter pelo menos 1 regra.
 A data de entrada é gerada pelo back-end, então não há necessidade de mandá-la.
 
 #### Efetua saída do estacionamento
-```http
+```
   PUT /api/v1/parkmovement/${id}/
 ```
 
