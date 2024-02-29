@@ -9,14 +9,6 @@
           <mat-label>Placa</mat-label>
           <input matInput type="text" formControlName="plate">
       </mat-form-field>
-      <!-- <mat-form-field appearance="outline">
-        <mat-label>Descrição</mat-label>
-        <input matInput formControlName="description">
-      </mat-form-field>
-      <mat-form-field appearance="outline">
-        <mat-label>ID cliente</mat-label>
-        <input matInput formControlName="customer_id">
-      </mat-form-field> -->
     </div>
     <div mat-dialog-actions class="action" style="float: right;">
       <button mat-raised-button type="button" (click)="this.cancelEditForm()">Cancelar</button>
@@ -25,12 +17,6 @@
   </form>
   <div class="table-container">
     <table mat-table [dataSource]="dataSource">
-
-      <!-- <ng-container matColumnDef="id">
-        <th mat-header-cell *matHeaderCellDef>ID</th>
-        <td mat-cell *matCellDef="let row"> {{row.id}} </td>
-      </ng-container> -->
-
       <ng-container matColumnDef="entry_date">
         <th mat-header-cell *matHeaderCellDef>Entrada</th>
         <td mat-cell *matCellDef="let row"><span class="entry_date">{{row.entry_date | date : 'dd/MM/yyyy HH:mm'}}</span></td>
@@ -45,16 +31,6 @@
         <th mat-header-cell *matHeaderCellDef>Card ID</th>
         <td mat-cell *matCellDef="let row"> {{row.customer?.card_id}}</td>
       </ng-container>
-
-      <!-- <ng-container matColumnDef="description">
-        <th mat-header-cell *matHeaderCellDef>Descrição</th>
-        <td mat-cell *matCellDef="let row"> {{row.description}}</td>
-      </ng-container>
-
-      <ng-container matColumnDef="customer">
-        <th mat-header-cell *matHeaderCellDef>Cliente</th>
-        <td mat-cell *matCellDef="let row"> {{row.customer?.name}}</td>
-      </ng-container> -->
 
       <ng-container matColumnDef="action">
         <th mat-header-cell *matHeaderCellDef>Ação</th>

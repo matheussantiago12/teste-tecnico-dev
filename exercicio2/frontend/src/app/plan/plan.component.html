@@ -2,23 +2,12 @@
   <form [formGroup]="form" (ngSubmit)="onFormSubmit()">
     <div class="form-row">
       <mat-form-field appearance="outline">
-          <mat-label>Placa</mat-label>
-          <input matInput type="text" formControlName="plate">
+          <mat-label>Descrição</mat-label>
+          <input matInput type="text" formControlName="description">
       </mat-form-field>
       <mat-form-field appearance="outline">
-          <mat-label>Modelo</mat-label>
-          <input matInput formControlName="model">
-      </mat-form-field>
-      <mat-form-field appearance="outline">
-        <mat-label>Descrição</mat-label>
-        <input matInput formControlName="description">
-      </mat-form-field>
-      <mat-form-field class="example-full-width">
-        <mat-label>Cliente</mat-label>
-        <input type="text" matInput [matAutocomplete]="auto" placeholder="Digite o nome do cliente..." [formControl]="customerFc">
-        <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayFn">
-          <mat-option *ngFor="let customer of this.customers" [value]="customer">{{customer.name}}</mat-option>
-        </mat-autocomplete>
+          <mat-label>Valor</mat-label>
+          <input matInput formControlName="value">
       </mat-form-field>
     </div>
     <div mat-dialog-actions class="action" style="float: right;">
@@ -31,27 +20,17 @@
 
       <ng-container matColumnDef="id">
         <th mat-header-cell *matHeaderCellDef>ID</th>
-        <td mat-cell *matCellDef="let row"> {{row.id}} </td>
-      </ng-container>
-
-      <ng-container matColumnDef="plate">
-        <th mat-header-cell *matHeaderCellDef>Placa</th>
-        <td mat-cell *matCellDef="let row"> {{row.plate}}</td>
-      </ng-container>
-
-      <ng-container matColumnDef="model">
-        <th mat-header-cell *matHeaderCellDef>Modelo</th>
-        <td mat-cell *matCellDef="let row"> {{row.model}}</td>
+        <td mat-cell *matCellDef="let row">{{row.id}} </td>
       </ng-container>
 
       <ng-container matColumnDef="description">
         <th mat-header-cell *matHeaderCellDef>Descrição</th>
-        <td mat-cell *matCellDef="let row"> {{row.description}}</td>
+        <td mat-cell *matCellDef="let row">{{row.description}}</td>
       </ng-container>
 
-      <ng-container matColumnDef="customer">
-        <th mat-header-cell *matHeaderCellDef>Cliente</th>
-        <td mat-cell *matCellDef="let row"> {{row.customer?.name}}</td>
+      <ng-container matColumnDef="value">
+        <th mat-header-cell *matHeaderCellDef>Valor</th>
+        <td mat-cell *matCellDef="let row">{{row.value.toLocaleString('pt-br',{style: 'currency', currency: 'BRL'})}}</td>
       </ng-container>
 
       <ng-container matColumnDef="action">

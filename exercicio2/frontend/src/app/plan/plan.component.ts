@@ -1,25 +1,23 @@
 import { Component, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
-import { CustomerService } from '../services/customer.service';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatPaginator } from '@angular/material/paginator';
 import { PlanService } from '../services/plan.service';
 
 @Component({
-  selector: 'app-customer',
-  templateUrl: './customer.component.html',
-  styleUrl: './customer.component.css'
+  selector: 'app-plan',
+  templateUrl: './plan.component.html',
+  styleUrl: './plan.component.css'
 })
-export class CustomerComponent {
+export class PlanComponent {
   id?: number = undefined;
   form: FormGroup;
-  plans: any[] = [];
 
   displayedColumns = [
     'id',
-    'name',
-    'card_id',
-    'action'
+    'description',
+    'value',
+    'action',
   ]
 
   dataSource!: MatTableDataSource<any>;
@@ -28,23 +26,20 @@ export class CustomerComponent {
 
   constructor(
     private fb: FormBuilder,
-    private customerService: CustomerService,
     private planService: PlanService,
   ) {
     this.form = this.fb.group({
-      name: '',
-      card_id: '',
-      plans: []
+      description: '',
+      value: ''
     })
   }
 
   ngOnInit(): void {
-    this.getCustomersList();
     this.getPlansList();
   }
 
-  getCustomersList() {
-    this.customerService.all().subscribe({
+  getPlansList() {
+    this.planService.all().subscribe({
       next: (res) => {
         this.dataSource = new MatTableDataSource(res);
         this.dataSource.paginator = this.paginator;
@@ -53,64 +48,41 @@ export class CustomerComponent {
     })
   }
 
-  getPlansList() {
-    this.planService.all().subscribe({
-      next: (res) => {
-        this.plans = res
-      },
-      error: console.log
-    })
-  }
-
   onFormSubmit() {
-    const plans_ids = this.form.value.plans
-
-    if (!this.form.value.name) {
-      alert('Informe o nome do cliente!')
-      return
-    }
-
-    if (!this.form.value.card_id) {
-      alert('Informe o card ID do cliente!')
-      return
-    }
-
-    // if (this.form.valid) {
+    if (this.form.valid) {
       if (!this.id) {
-        this.customerService.create({ ...this.form.value, plans_ids})
+        this.planService.create(this.form.value)
           .subscribe({
             next: (val: any) => {
-              alert('Cliente cadastrado com sucesso!');
+              alert('Plano cadastrado com sucesso!');
               this.form.reset();
-              this.getCustomersList();
+              this.getPlansList();
             },
             error: (err: any) => {
               console.error(err)
             }
           })
       } else {
-        this.customerService.update({ ...this.form.value, plans_ids }, this.id)
+        this.planService.update(this.form.value, this.id)
           .subscribe({
             next: (val: any) => {
-              alert('Cliente atualizado com sucesso!');
+              alert('Plano atualizado com sucesso!');
               this.form.reset();
-              this.getCustomersList();
+              this.getPlansList();
             },
             error: (err: any) => {
               console.error(err)
             }
           })
       }
-    // }
+    }
   }
 
   fillEditForm(data: any) {
     this.id = data.id;
-    this.form.patchValue({})
     this.form.patchValue({
-      name: data.name,
-      card_id: data.card_id,
-      plans: data.plans.map((plan: any) => plan.plan.id)
+      value: data.value,
+      description: data.description,
     });
   }
 

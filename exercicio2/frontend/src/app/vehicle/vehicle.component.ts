@@ -1,8 +1,9 @@
 import { Component, ViewChild } from '@angular/core';
-import { FormBuilder, FormGroup } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatPaginator } from '@angular/material/paginator';
 import { VehicleService } from '../services/vehicle.service';
+import { CustomerService } from '../services/customer.service';
 
 @Component({
   selector: 'app-vehicle',
@@ -12,6 +13,8 @@ import { VehicleService } from '../services/vehicle.service';
 export class VehicleComponent {
   id?: number = undefined;
   form: FormGroup;
+  customers: any[] = []
+  customerFc = new FormControl<any>('');
 
   displayedColumns = [
     'id',
@@ -29,20 +32,21 @@ export class VehicleComponent {
   constructor(
     private fb: FormBuilder,
     private vehicleService: VehicleService,
+    private customerService: CustomerService,
   ) {
     this.form = this.fb.group({
       plate: '',
       model: '',
-      description: '',
-      customer_id: '',
+      description: ''
     })
   }
 
   ngOnInit(): void {
+    this.getVehiclesList();
     this.getCustomersList();
   }
 
-  getCustomersList() {
+  getVehiclesList() {
     this.vehicleService.all().subscribe({
       next: (res) => {
         this.dataSource = new MatTableDataSource(res);
@@ -52,25 +56,51 @@ export class VehicleComponent {
     })
   }
 
+  getCustomersList() {
+    this.customerService.all().subscribe({
+      next: (res) => {
+        this.customers = res
+      },
+      error: console.log
+    })
+  }
+
+  displayFn(data: any): string {
+    return data && data.name ? data.name : '';
+  }
+
   onFormSubmit() {
+    if (!this.form.value.plate) {
+      alert('Informe a placa do veículo!')
+      return
+    }
+
     if (this.form.valid) {
+      const data = {
+        ...this.form.value,
+        customer: null,
+        customer_id: this.customerFc.value.id
+      }
+
       if (!this.id) {
-        this.vehicleService.create(this.form.value)
+        this.vehicleService.create(data)
           .subscribe({
             next: (val: any) => {
               alert('Veículo cadastrado com sucesso!')
-              this.getCustomersList();
+              this.form.reset();
+              this.getVehiclesList();
             },
             error: (err: any) => {
               console.error(err)
             }
           })
       } else {
-        this.vehicleService.update(this.form.value, this.id)
+        this.vehicleService.update(data, this.id)
           .subscribe({
             next: (val: any) => {
-              alert('Veículo atualizado com sucesso!')
-              this.getCustomersList();
+              alert('Veículo atualizado com sucesso!');
+              this.form.reset();
+              this.getVehiclesList();
             },
             error: (err: any) => {
               console.error(err)
@@ -86,12 +116,13 @@ export class VehicleComponent {
       plate: data.plate,
       model: data.model,
       description: data.description,
-      customer_id: data.customer_id,
     });
+    this.customerFc.patchValue(data.customer)
   }
 
   cancelEditForm() {
     this.id = undefined;
     this.form.reset()
+    this.customerFc.reset()
   }
 }

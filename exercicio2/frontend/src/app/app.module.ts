@@ -1,6 +1,5 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
@@ -17,7 +16,10 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { VehicleComponent } from './vehicle/vehicle.component';
 import { CommonModule } from '@angular/common';
-import {MatSelectModule} from '@angular/material/select';
+import { MatSelectModule } from '@angular/material/select';
+import { PlanComponent } from './plan/plan.component';
+import { ContractComponent } from './contract/contract.component';
+import { MatAutocompleteModule } from '@angular/material/autocomplete';
 
 export const BASE_URL = "http://localhost:8000/api/v1"
 
@@ -26,7 +28,9 @@ export const BASE_URL = "http://localhost:8000/api/v1"
     AppComponent,
     CustomerComponent,
     ParkMovementComponent,
-    VehicleComponent
+    VehicleComponent,
+    PlanComponent,
+    ContractComponent,
   ],
   imports: [
     BrowserModule,
@@ -41,7 +45,8 @@ export const BASE_URL = "http://localhost:8000/api/v1"
     MatFormFieldModule,
     MatInputModule,
     CommonModule,
-    MatSelectModule
+    MatSelectModule,
+    MatAutocompleteModule
   ],
   providers: [
     provideAnimationsAsync()

@@ -1,0 +1,48 @@
+.example-spacer {
+    flex: 1 1 auto;
+  }
+  
+.container-main {
+    padding: 30px;
+    margin: 0 auto;
+    max-width: 1300px;
+}
+  
+.action {
+    display: flex;
+    gap: 5px;
+}
+
+form {
+    width: 100%;
+}
+
+.form-row {
+    display: flex;
+    gap: 5px;
+}
+
+.form-row * {
+    width: 100%;
+}
+
+.custom-table {
+    border: 1px solid rgb(170, 170, 170);
+    border-radius: 4px;
+}
+
+.custom-table th, .custom-table td {
+    text-align: left;
+    padding: 14px;
+    padding-left: 8px;
+    padding-right: 8px;
+    border-bottom: 1px solid rgb(170, 170, 170);
+}
+
+.custom-table > tr:last-child > td {
+    border-bottom: 0;
+}
+
+.custom-table > tr:last-child > th {
+    border-bottom: 0;
+}

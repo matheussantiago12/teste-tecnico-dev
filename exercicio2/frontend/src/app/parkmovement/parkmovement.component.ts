@@ -55,7 +55,8 @@ export class ParkMovementComponent {
       this.parkMovementService.create(this.form.value)
         .subscribe({
           next: (val: any) => {
-            alert('Veículo cadastrado com sucesso!')
+            alert('Entrada cadastrado com sucesso!');
+            this.form.reset();
             this.getParkMovementList();
           },
           error: (err: any) => {

@@ -10,13 +10,9 @@
           <input matInput formControlName="card_id">
       </mat-form-field>
       <mat-form-field>
-        <mat-label>Plano</mat-label>
+        <mat-label>Planos</mat-label>
         <mat-select placeholder="Selecione o plano do cliente" formControlName="plans" multiple [(value)]="this.form.value.plans">
           <mat-option *ngFor="let plan of plans" [value]="plan.id">{{ plan?.description }}</mat-option>
-
-          <!-- @for (plan of plans; track plan) {
-            <mat-option [value]="plan">{{ plan?.description }}</mat-option>
-          } -->
         </mat-select>
       </mat-form-field>
     </div>
